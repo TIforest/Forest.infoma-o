@@ -302,29 +302,57 @@
 
     <p class="section-title" style="margin-top:40px;">Editar Comunicados & Feriados</p>
     <div class="info-box" style="margin-bottom:16px;">
-        <p style="font-size:0.82rem; color:var(--dim);">Edite o título e descrição do card de feriado e os resultados da CIPA. Clique em <strong>Publicar</strong> para atualizar o site.</p>
+        <p style="font-size:0.82rem; color:var(--dim);">Edite os cards livremente — feriado, avisos, aniversariantes, eventos, etc. Clique em <strong>Publicar</strong> para atualizar o site instantaneamente.</p>
     </div>
 
-    <div class="form-grid">
-        <div>
-            <label>Título do Feriado</label>
-            <input type="text" id="feriado-titulo-inp" placeholder="Ex: Sexta-Feira Santa — 18/04" value="Sexta-Feira Santa — 18/04">
-        </div>
-        <div>
-            <label>Descrição do Feriado</label>
-            <input type="text" id="feriado-desc-inp" placeholder="Ex: Folga geral para Produção e Administrativo." value="Folga geral para Produção e Administrativo.">
+    <!-- Card Feriado -->
+    <div class="info-box" style="border-left-color:#c07000; margin-bottom:10px;">
+        <p style="font-size:0.78rem; color:#ffaa33; font-weight:700; margin-bottom:10px;">📅 CARD FERIADO</p>
+        <div class="form-grid">
+            <div>
+                <label>Título</label>
+                <input type="text" id="feriado-titulo-inp" placeholder="Ex: Tiradentes — 21/04">
+            </div>
+            <div>
+                <label>Descrição</label>
+                <input type="text" id="feriado-desc-inp" placeholder="Ex: Folga geral para todos os setores.">
+            </div>
         </div>
     </div>
 
-    <label style="margin-top:14px;">Eleitos CIPA — Forest (um por linha: 1º Nome)</label>
-    <textarea id="cipa-forest" rows="5" placeholder="1º Jose Carlos Karas Nagy&#10;2º Marcos Bueno&#10;3º Uanderson Resende&#10;4º Sergio Ap. Americo&#10;5º Altimir dos Santos">1º Jose Carlos Karas Nagy
-2º Marcos Bueno
-3º Uanderson Resende
-4º Sergio Ap. Americo
-5º Altimir dos Santos</textarea>
+    <!-- Card 1 livre -->
+    <div class="info-box" style="margin-bottom:10px;">
+        <p style="font-size:0.78rem; color:var(--green); font-weight:700; margin-bottom:10px;">📋 CARD 1 — Título editável</p>
+        <div class="form-grid" style="margin-bottom:10px;">
+            <div>
+                <label>Título do Card</label>
+                <input type="text" id="card1-titulo" placeholder="Ex: CIPA — Forest, Aniversariantes, Aviso...">
+            </div>
+            <div>
+                <label>Tag (etiqueta pequena)</label>
+                <input type="text" id="card1-tag" placeholder="Ex: CIPA, Aviso, RH, Eventos...">
+            </div>
+        </div>
+        <label>Conteúdo (uma informação por linha)</label>
+        <textarea id="card1-corpo" rows="5" placeholder="1º Fernando Betim&#10;2º Angela Teixeira&#10;..."></textarea>
+    </div>
 
-    <label style="margin-top:14px;">Eleitos CIPA — Revita (um por linha: 1º Nome)</label>
-    <textarea id="cipa-revita" rows="5" placeholder="1º Nome&#10;2º Nome&#10;...">Em breve.</textarea>
+    <!-- Card 2 livre -->
+    <div class="info-box" style="margin-bottom:10px;">
+        <p style="font-size:0.78rem; color:var(--green); font-weight:700; margin-bottom:10px;">📋 CARD 2 — Título editável</p>
+        <div class="form-grid" style="margin-bottom:10px;">
+            <div>
+                <label>Título do Card</label>
+                <input type="text" id="card2-titulo" placeholder="Ex: CIPA — Revita, Aniversariantes, Aviso...">
+            </div>
+            <div>
+                <label>Tag (etiqueta pequena)</label>
+                <input type="text" id="card2-tag" placeholder="Ex: CIPA, Aviso, RH, Eventos...">
+            </div>
+        </div>
+        <label>Conteúdo (uma informação por linha)</label>
+        <textarea id="card2-corpo" rows="5" placeholder="1º Jose Carlos Karas Nagy&#10;2º Marcos Bueno&#10;..."></textarea>
+    </div>
 
     <div class="acoes" style="margin-top:14px;">
         <button class="btn btn-publicar" id="btn-pub-com" onclick="publicarComunicados()">🚀 Publicar Comunicados</button>
@@ -363,8 +391,12 @@
         const d = snap.data();
         document.getElementById('feriado-titulo-inp').value = d.feriadoTitulo || '';
         document.getElementById('feriado-desc-inp').value   = d.feriadoDesc   || '';
-        document.getElementById('cipa-forest').value        = d.cipaForest    || '';
-        document.getElementById('cipa-revita').value        = d.cipaRevita    || '';
+        document.getElementById('card1-titulo').value       = d.card1Titulo   || '';
+        document.getElementById('card1-tag').value          = d.card1Tag      || '';
+        document.getElementById('card1-corpo').value        = d.card1Corpo    || '';
+        document.getElementById('card2-titulo').value       = d.card2Titulo   || '';
+        document.getElementById('card2-tag').value          = d.card2Tag      || '';
+        document.getElementById('card2-corpo').value        = d.card2Corpo    || '';
     }).catch(err => console.error('Erro ao carregar comunicados:', err));
 
     // ── Parsear dados colados do Excel ───────────────────────
@@ -464,8 +496,12 @@
 
         const feriadoTitulo = document.getElementById('feriado-titulo-inp').value.trim();
         const feriadoDesc   = document.getElementById('feriado-desc-inp').value.trim();
-        const cipaForest    = document.getElementById('cipa-forest').value.trim();
-        const cipaRevita    = document.getElementById('cipa-revita').value.trim();
+        const card1Titulo   = document.getElementById('card1-titulo').value.trim();
+        const card1Tag      = document.getElementById('card1-tag').value.trim();
+        const card1Corpo    = document.getElementById('card1-corpo').value.trim();
+        const card2Titulo   = document.getElementById('card2-titulo').value.trim();
+        const card2Tag      = document.getElementById('card2-tag').value.trim();
+        const card2Corpo    = document.getElementById('card2-corpo').value.trim();
 
         if (!feriadoTitulo) { msg.textContent = 'Preencha o título do feriado.'; msg.className = 'msg erro'; return; }
 
@@ -477,8 +513,12 @@
             await db.collection('portal').doc('comunicados').set({
                 feriadoTitulo,
                 feriadoDesc,
-                cipaForest,
-                cipaRevita,
+                card1Titulo,
+                card1Tag,
+                card1Corpo,
+                card2Titulo,
+                card2Tag,
+                card2Corpo,
                 atualizadoEm: new Date().toISOString()
             });
 
