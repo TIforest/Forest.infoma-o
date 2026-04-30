@@ -387,21 +387,17 @@
     <section id="comunicados">
         <h3>Comunicados & Eventos</h3>
         <div id="cards-comunicados" class="grid-cards">
-            <!-- CIPA Forest -->
+            <!-- Card 1 livre -->
             <div class="card">
-                <span class="tag">Eleições CIPA — Forest</span>
-                <h4>Candidatos Eleitos</h4>
-                <p id="cipa-forest-render" style="font-size: 0.85rem;">
-                    <span style="color:var(--dim)">Carregando...</span>
-                </p>
+                <span class="tag" id="card1-tag-render">Info</span>
+                <h4 id="card1-titulo-render" style="color:var(--green);">Carregando...</h4>
+                <p id="card1-corpo-render" style="font-size: 0.85rem; color: var(--dim);"></p>
             </div>
-            <!-- CIPA Revita -->
+            <!-- Card 2 livre -->
             <div class="card">
-                <span class="tag">Eleições CIPA — Revita</span>
-                <h4>Candidatos Eleitos</h4>
-                <p id="cipa-revita-render" style="font-size: 0.85rem; color: var(--dim);">
-                    Carregando...
-                </p>
+                <span class="tag" id="card2-tag-render">Info</span>
+                <h4 id="card2-titulo-render" style="color:var(--green);">Carregando...</h4>
+                <p id="card2-corpo-render" style="font-size: 0.85rem; color: var(--dim);"></p>
             </div>
             <!-- Feriado -->
             <div class="card destaque-feriado">
@@ -624,19 +620,25 @@
     // ── Carregar Comunicados em tempo real ───────────────────
     db.collection('portal').doc('comunicados').onSnapshot(snap => {
         if (!snap.exists) {
-            document.getElementById('feriado-titulo').textContent = '—';
-            document.getElementById('feriado-desc').textContent = '';
-            document.getElementById('cipa-forest-render').innerHTML = 'Em breve.';
-            document.getElementById('cipa-revita-render').innerHTML = 'Em breve.';
+            document.getElementById('feriado-titulo').textContent     = '—';
+            document.getElementById('feriado-desc').textContent       = '';
+            document.getElementById('card1-titulo-render').textContent = 'Em breve';
+            document.getElementById('card1-tag-render').textContent   = 'Info';
+            document.getElementById('card1-corpo-render').innerHTML   = '';
+            document.getElementById('card2-titulo-render').textContent = 'Em breve';
+            document.getElementById('card2-tag-render').textContent   = 'Info';
+            document.getElementById('card2-corpo-render').innerHTML   = '';
             return;
         }
         const d = snap.data();
-        document.getElementById('feriado-titulo').textContent = d.feriadoTitulo || '—';
-        document.getElementById('feriado-desc').textContent   = d.feriadoDesc   || '';
-        document.getElementById('cipa-forest-render').innerHTML =
-            (d.cipaForest || 'Em breve.').replace(/\n/g, '<br>');
-        document.getElementById('cipa-revita-render').innerHTML =
-            (d.cipaRevita || 'Em breve.').replace(/\n/g, '<br>');
+        document.getElementById('feriado-titulo').textContent      = d.feriadoTitulo || '—';
+        document.getElementById('feriado-desc').textContent        = d.feriadoDesc   || '';
+        document.getElementById('card1-titulo-render').textContent = d.card1Titulo   || '';
+        document.getElementById('card1-tag-render').textContent    = d.card1Tag      || 'Info';
+        document.getElementById('card1-corpo-render').innerHTML    = (d.card1Corpo   || '').replace(/\n/g, '<br>');
+        document.getElementById('card2-titulo-render').textContent = d.card2Titulo   || '';
+        document.getElementById('card2-tag-render').textContent    = d.card2Tag      || 'Info';
+        document.getElementById('card2-corpo-render').innerHTML    = (d.card2Corpo   || '').replace(/\n/g, '<br>');
     }, err => {
         console.error('Erro ao carregar comunicados:', err);
     });
