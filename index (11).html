@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forest Paper - Central de TI</title>
+    <style>
+        :root {
+            --green: #5a7d32;
+            --dark: #141d21;
+            --card: #1e2a2f;
+            --text: #ffffff;
+            --dim: #aeb9be;
+            --slate: #3e5159;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: var(--dark);
+            color: var(--text);
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            line-height: 1.6;
+        }
+
+        .container { max-width: 1100px; margin: auto; padding: 0 20px; }
+
+        header {
+            background: rgba(20, 29, 33, 0.95);
+            border-bottom: 2px solid var(--green);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        .header-content { display: flex; justify-content: space-between; align-items: center; }
+        .logo h1 { font-size: 1.4rem; letter-spacing: 1px; }
+        .logo h1 span { color: var(--green); }
+
+        nav a {
+            color: var(--dim);
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+        nav a:hover { color: var(--green); }
+
+        #btn-admin {
+            margin-left: 20px;
+            background: none;
+            border: 1px solid var(--slate);
+            color: var(--dim);
+            padding: 5px 12px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        #btn-admin:hover { border-color: var(--green); color: var(--green); }
+
+        #hero {
+            padding: 70px 0;
+            text-align: center;
+            background: radial-gradient(circle at center, #1e2a2f, var(--dark));
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        #hero h2 { font-size: 2.2rem; color: var(--green); margin-bottom: 15px; font-weight: 800; }
+        .hero-btns { margin-top: 30px; }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            margin: 8px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            transition: transform 0.3s, box-shadow 0.3s, filter 0.3s;
+        }
+        .btn-primary { background: var(--green); color: #fff; }
+        .btn-secondary { border: 1px solid var(--green); color: var(--green); }
+        .btn:hover { transform: translateY(-2px); filter: brightness(1.1); box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+
+        section { padding: 50px 0; }
+
+        h3 {
+            color: var(--green);
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        h3::after { content: ""; flex: 1; height: 1px; background: rgba(90,125,50,0.2); }
+
+        .grid-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+
+        .card {
+            background: var(--card);
+            padding: 25px;
+            border-radius: 6px;
+            border-bottom: 3px solid transparent;
+            transition: background 0.3s, border-color 0.3s, transform 0.3s;
+        }
+        .card:hover { background: #25333a; border-bottom-color: var(--green); transform: translateY(-5px); }
+        .card h4 { color: var(--green); margin-bottom: 12px; }
+        .card p { font-size: 0.9rem; color: var(--dim); }
+
+        .info-box {
+            background: var(--card);
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--slate);
+        }
+        .info-box.alert { border-left-color: #c0392b; }
+
+        .tag {
+            display: inline-block;
+            background: var(--green);
+            color: #fff;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        .tag.danger { background: #c0392b; }
+
+        #manual-detalhado h4 { color: var(--green); margin: 20px 0 10px; font-weight: bold; }
+
+        .escala-container {
+            overflow-x: auto;
+            background: #2e3d44;
+            padding: 6px;
+            border-radius: 10px;
+            margin-top: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            min-width: 900px;
+            color: #000;
+            font-weight: bold;
+            font-size: 0.78rem;
+        }
+
+        th, td { border: 2px solid #2e3d44; padding: 9px 3px; text-align: center; color: #000; }
+
+        .sticky-col {
+            position: sticky;
+            left: 0;
+            background: #d6dde0;
+            z-index: 5;
+            min-width: 90px;
+            text-align: left;
+            padding-left: 10px;
+            border-right: 3px solid #2e3d44;
+            color: #222;
+            white-space: nowrap;
+        }
+
+        .header-row th, .header-row td { background: #c8d4da; color: #333; font-size: 0.72rem; }
+        .header-row .sticky-col { background: #b8c8d0; color: #1a3a1a; font-weight: 800; }
+        .folga-label { background: #e8e0cc !important; color: #555 !important; }
+        .a { background: #ff9900; }
+        .b { background: #ffcc00; color: #222; }
+        .c { background: #3399ff; }
+        .d { background: #339933; }
+        .e { background: #99cc00; color: #222; }
+
+        .legenda {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 14px;
+        }
+        .legenda-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+            color: var(--dim);
+        }
+        .legenda-cor {
+            width: 16px;
+            height: 16px;
+            border-radius: 3px;
+            flex-shrink: 0;
+        }
+
+        footer {
+            background: #0d1417;
+            padding: 60px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            margin-top: 50px;
+        }
+        footer p { color: var(--dim); font-size: 0.95rem; letter-spacing: 0.5px; }
+
+        /* Modal de login */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.75);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-overlay.ativo { display: flex; }
+
+        .modal {
+            background: var(--card);
+            border: 1px solid var(--slate);
+            border-top: 3px solid var(--green);
+            border-radius: 8px;
+            padding: 36px 32px;
+            width: 100%;
+            max-width: 360px;
+            position: relative;
+        }
+
+        .modal h2 { color: var(--green); font-size: 1.1rem; margin-bottom: 6px; }
+        .modal p { color: var(--dim); font-size: 0.82rem; margin-bottom: 22px; }
+
+        .modal label { display: block; font-size: 0.8rem; color: var(--dim); margin-bottom: 4px; }
+
+        .modal input {
+            width: 100%;
+            background: #141d21;
+            border: 1px solid var(--slate);
+            color: var(--text);
+            padding: 10px 12px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            margin-bottom: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .modal input:focus { border-color: var(--green); }
+
+        .modal-btn {
+            width: 100%;
+            padding: 11px;
+            background: var(--green);
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: filter 0.2s;
+        }
+        .modal-btn:hover { filter: brightness(1.15); }
+
+        .modal-fechar {
+            position: absolute;
+            top: 12px; right: 16px;
+            background: none;
+            border: none;
+            color: var(--dim);
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+        .modal-erro {
+            color: #e74c3c;
+            font-size: 0.8rem;
+            margin-top: -8px;
+            margin-bottom: 10px;
+            display: none;
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .header-content { flex-wrap: wrap; gap: 10px; }
+            nav { display: flex; flex-wrap: wrap; gap: 6px; justify-content: flex-start; }
+            nav a, #btn-admin { margin-left: 0; font-size: 0.75rem; }
+            .sticky-col { min-width: 70px; font-size: 0.62rem; padding-left: 4px; }
+            table { font-size: 0.62rem; min-width: 600px; }
+            th, td { padding: 7px 2px; }
+        }
+
+        /* Card feriado destaque */
+        .destaque-feriado {
+            border-left: 4px solid #c07000;
+            background: #252018;
+            animation: pulseCard 2.5s ease-in-out infinite;
+        }
+        .destaque-feriado h4 { color: #ffaa33; }
+        @keyframes pulseCard {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(192,112,0,0); }
+            50% { box-shadow: 0 0 14px 3px rgba(192,112,0,0.35); }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="container header-content">
+        <div class="logo"><h1>Forest<span>Paper</span></h1></div>
+        <nav>
+            <a href="#primeiro-acesso">Acessos</a>
+            <a href="#ti-avisos">TI Avisos</a>
+            <a href="#comunicados">Comunicados</a>
+            <a href="#rh">RH/Ponto</a>
+            <a href="#escala">Escala Revita</a>
+            <a href="#escala-forest">Turnos Forest</a>
+            <a href="#manual-detalhado">Manual</a>
+            <a href="#plano-saude">Plano de Saúde</a>
+            <a href="#beneficios">Benefícios</a>
+            <button id="btn-admin" onclick="abrirModal()">⚙ Alterar Escala</button>
+        </nav>
+    </div>
+</header>
+
+<!-- Modal de Login -->
+<div class="modal-overlay" id="modal-login">
+    <div class="modal">
+        <button class="modal-fechar" onclick="fecharModal()">✕</button>
+        <h2>Área Restrita</h2>
+        <p>Acesso exclusivo para RH / TI</p>
+        <label>Usuário</label>
+        <input type="text" id="inp-user" placeholder="usuário" autocomplete="off">
+        <label>Senha</label>
+        <input type="password" id="inp-senha" placeholder="••••••••" onkeydown="if(event.key==='Enter') entrar()">
+        <div class="modal-erro" id="erro-login">Usuário ou senha incorretos.</div>
+        <button class="modal-btn" onclick="entrar()">Entrar</button>
+    </div>
+</div>
+
+<section id="hero">
+    <div class="container">
+        <h2>CENTRAL DE INFORMAÇÕES TI</h2>
+        <p style="color: var(--dim);">Portal de orientações para colaboradores Forest Paper e Revita.</p>
+        <div class="hero-btns">
+            <a href="https://tiforest.github.io/abrir_chamado/"
+               target="_blank" class="btn btn-primary">Abrir Chamado</a>
+            <a href="#rh" class="btn btn-secondary">RH & Ponto</a>
+            <a href="#manual-detalhado" class="btn btn-secondary">Manual de Acessos</a>
+        </div>
+    </div>
+</section>
+
+<main class="container">
+
+    <section id="primeiro-acesso">
+        <h3>Primeiro Acesso</h3>
+        <div class="grid-cards">
+            <div class="card"><h4>E-mail</h4><p>nome.sobrenome@forest.ind.br</p></div>
+            <div class="card"><h4>Notebook</h4><p>Senha inicial: <strong>Forest@2026</strong>.</p></div>
+            <div class="card"><h4>Protheus</h4><p>Usuário: nome.sobrenome | Senha: 123456</p></div>
+            <a href="https://tiforest.github.io/abrir_chamado/"
+               target="_blank" style="text-decoration: none; color: inherit;">
+                <div class="card"><h4>Wi-Fi</h4><p>Solicite seu voucher via chamado de TI.</p></div>
+            </a>
+        </div>
+    </section>
+
+    <!-- ATENÇÃO EQUIPAMENTOS + CÂMERAS juntos -->
+    <section id="ti-avisos">
+        <h3>Atenção — TI</h3>
+        <div class="info-box">
+            <span class="tag">Equipamentos</span>
+            <p>Temos identificado danos físicos em notebooks (portas quebradas, teclas arrancadas e avarias na estrutura).</p>
+            <p style="margin-top: 10px; color: var(--dim);">Reforçamos a importância do cuidado no manuseio e transporte. Em caso de anormalidade, <strong>acione a TI imediatamente</strong>. Não tente reparar por conta própria.</p>
+        </div>
+        <div class="info-box alert">
+            <span class="tag danger">⚠ Acesso às Câmeras</span>
+            <h4>Por que o acesso às câmeras precisa ser solicitado?</h4>
+            <p style="margin-top: 10px;">O sistema de monitoramento é uma ferramenta de <strong>segurança patrimonial e operacional</strong>. O acesso é restrito para proteger a privacidade dos colaboradores e garantir o uso correto das imagens.</p>
+            <p style="margin-top: 10px; color: var(--dim);">Somente líderes e responsáveis devidamente autorizados podem visualizar as câmeras — e apenas nas áreas relacionadas à sua função.</p>
+            <p style="margin-top: 14px;"><strong>Como solicitar:</strong> O líder deve entrar em contato com a TI informando o nome do colaborador que precisará do acesso e a <strong>justificativa</strong> para a liberação.</p>
+        </div>
+    </section>
+
+    <!-- COMUNICADOS — carregados dinamicamente do Firebase -->
+    <section id="comunicados">
+        <h3>Comunicados & Eventos</h3>
+        <div id="cards-comunicados" class="grid-cards">
+            <!-- CIPA Forest -->
+            <div class="card">
+                <span class="tag">Eleições CIPA — Forest</span>
+                <h4>Candidatos Eleitos</h4>
+                <p id="cipa-forest-render" style="font-size: 0.85rem;">
+                    <span style="color:var(--dim)">Carregando...</span>
+                </p>
+            </div>
+            <!-- CIPA Revita -->
+            <div class="card">
+                <span class="tag">Eleições CIPA — Revita</span>
+                <h4>Candidatos Eleitos</h4>
+                <p id="cipa-revita-render" style="font-size: 0.85rem; color: var(--dim);">
+                    Carregando...
+                </p>
+            </div>
+            <!-- Feriado -->
+            <div class="card destaque-feriado">
+                <span class="tag" style="background:#c07000;">📅 Feriado</span>
+                <h4 id="feriado-titulo">Carregando...</h4>
+                <p id="feriado-desc"></p>
+            </div>
+        </div>
+    </section>
+
+    <section id="rh">
+        <h3>Recursos Humanos & DP</h3>
+        <div class="info-box alert">
+            <span class="tag danger">Urgente: Marcação de Ponto</span>
+            <h4>Apontamento de Horas (16 a 15)</h4>
+            <p style="margin-top: 10px;">A marcação de ponto é obrigação de cada colaborador. Verifique seu aplicativo diariamente.</p>
+            <ul style="margin: 15px 0 15px 20px; font-size: 0.9rem; color: var(--dim);">
+                <li>O DP <strong>não irá mais procurar</strong> colaboradores para correções.</li>
+                <li>Falhas devem ser comunicadas ao seu <strong>Líder</strong> imediatamente.</li>
+                <li>O Líder deve ir ao RH para correções até o <strong>dia 18 de cada mês</strong>.</li>
+                <li><strong>Não serão aceitos</strong> pedidos de correção via WhatsApp.</li>
+            </ul>
+            <p style="font-size: 0.8rem; color: #e74c3c;">* Descontos por falta de registro serão reembolsados apenas no mês seguinte após a correção presencial.</p>
+        </div>
+        <div class="info-box">
+            <span class="tag">Atestados</span>
+            <ul style="margin: 10px 0 0 20px; font-size: 0.9rem; color: var(--dim);">
+                <li>Documentos como atestados e declarações médicas devem ser entregues ao RH ou gestor em até <strong>48 horas</strong> após o início da ausência.</li>
+                <li>Podem ser enviados inicialmente como foto ou PDF, mas o original deve ser entregue depois.</li>
+                <li>Entrega fora do prazo pode gerar falta não justificada e impacto no pagamento.</li>
+            </ul>
+        </div>
+        <div class="info-box">
+            <span class="tag">App Meu RH</span>
+            <h4>Consulta de Ponto e Holerite</h4>
+            <p>Pelo aplicativo <strong>Meu RH</strong> você consulta seu espelho de ponto e holerite a qualquer hora.</p>
+            <ul style="margin: 12px 0 0 20px; font-size: 0.9rem; color: var(--dim);">
+                <li>Instale o aplicativo <strong>Meu RH</strong> na sua loja de aplicativos.</li>
+                <li>No primeiro acesso, escaneie o <strong>QR Code</strong> disponível no RH.</li>
+                <li>Login: <strong>seu CPF sem pontuação</strong> | Senha inicial: <strong>111111</strong></li>
+            </ul>
+        </div>
+    </section>
+
+<section id="escala">
+        <h3 id="escala-titulo">Escala de Turnos Revita</h3>
+        <div id="escala-wrapper">
+            <div class="escala-container">
+                <p style="padding:30px; text-align:center; color:var(--dim);">Carregando escala...</p>
+            </div>
+        </div>
+        <div class="legenda">
+            <div class="legenda-item"><div class="legenda-cor" style="background:#e07800"></div>Turma A</div>
+            <div class="legenda-item"><div class="legenda-cor" style="background:#c9a800"></div>Turma B</div>
+            <div class="legenda-item"><div class="legenda-cor" style="background:#1a7fcc"></div>Turma C</div>
+            <div class="legenda-item"><div class="legenda-cor" style="background:#217a30"></div>Turma D</div>
+            <div class="legenda-item"><div class="legenda-cor" style="background:#7ab800"></div>Turma E</div>
+            <div class="legenda-item"><div class="legenda-cor" style="background:#3a3020; border:1px solid #666"></div>Folga</div>
+        </div>
+    </section>
+
+    
+    <section id="escala-forest">
+        <h3>Turnos Forest Paper</h3>
+        <div class="grid-cards">
+            <div class="card"><h4>1º Turno</h4><p>00:10 – 03:00 / 04:00 – 08:00</p></div>
+            <div class="card"><h4>2º Turno</h4><p>08:00 – 12:00 / 13:00 – 16:20</p></div>
+            <div class="card"><h4>3º Turno</h4><p>16:10 – 20:00 / 21:00 – 00:30</p></div>
+        </div>
+    </section>
+
+    <section id="manual-detalhado">
+        <h3>Guia de Boas-Vindas e Primeiro Acesso</h3>
+        <div class="info-box">
+            <span class="tag">Manual do Colaborador</span>
+            <p><strong>Primeiramente, parabéns por fazer parte da Forest Paper!</strong> É um prazer ter você em nossa equipe.</p>
+            <p style="margin-top: 15px;">Para que você comece suas atividades com total suporte da TI, preparamos este guia detalhado sobre o seu processo de entrada:</p>
+            <h4>1. Entrega de Equipamento</h4>
+            <p>Ao chegar, a equipe de TI realizará a entrega do seu <strong>Notebook Corporativo</strong>, já configurado com as políticas de segurança e softwares necessários para sua função.</p>
+            <h4>2. Configuração de Credenciais</h4>
+            <p>Você receberá suas credenciais provisórias. O sistema solicitará a troca de senha no primeiro login. Use <strong>Forest@2026</strong> apenas no primeiro acesso ao Windows.</p>
+            <h4>3. Acessos aos Sistemas (ERP e E-mail)</h4>
+            <p>Seu e-mail segue o padrão <em>nome.sobrenome@forest.ind.br</em>. O acesso ao Protheus será liberado conforme seu cargo. Para módulos adicionais, peça ao gestor abrir chamado.</p>
+            <h4>4. Conexão à Rede Wi-Fi</h4>
+            <p>O acesso Wi-Fi é individual. Solicite seu <strong>voucher</strong> via chamado Milvus assim que o computador estiver logado.</p>
+            <p style="margin-top: 20px; font-style: italic; border-top: 1px solid var(--slate); padding-top: 10px;">
+                Qualquer dúvida, procure um analista de TI ou abra um chamado pelo botão no topo do portal.
+            </p>
+        </div>
+    </section>
+
+    <section id="plano-saude">
+        <h3>Plano de Saúde — Nossa Saúde</h3>
+        <div class="info-box">
+            <span class="tag">Benefício</span>
+            <h4>Quem pode ser incluído</h4>
+            <p>Cônjuge, companheiro(a) em união estável e filhos.</p>
+            <h4>Valor mensal por dependente</h4>
+            <p>R$ 48,22 por vida (desconto mensal em folha). O valor é cobrado para o colaborador e cada dependente incluído.</p>
+            <h4>Coparticipação</h4>
+            <p>Além do valor mensal, existe <strong>coparticipação de 30%</strong> quando o plano é utilizado. O valor varia conforme a especialidade da consulta ou procedimento.</p>
+            <p style="margin-top: 8px;"><strong>Plano cobre: 70% | Colaborador paga: 30%</strong></p>
+            <h4>Documentos para inclusão de dependentes</h4>
+            <p><strong>Filhos:</strong> RG, Certidão de Nascimento ou CPF.<br>
+            <span style="color: var(--dim); font-size: 0.85rem;">* Crianças com até 3 anos precisam apresentar a carteirinha de vacina ao RH.</span></p>
+            <p style="margin-top: 10px;"><strong>Cônjuge:</strong> Certidão de casamento ou contrato de união estável + RG ou CNH.</p>
+            <h4>Informação importante</h4>
+            <p style="color: #e74c3c;">O plano <strong>não possui cobertura odontológica</strong> (dentista).</p>
+            <p style="margin-top: 20px; font-style: italic; border-top: 1px solid var(--slate); padding-top: 10px;">
+                Estamos à disposição para quaisquer esclarecimentos.
+            </p>
+        </div>
+    </section>
+
+    <section id="beneficios">
+        <h3>Benefícios</h3>
+        <div class="info-box">
+            <span class="tag">Vale Alimentação — Flash</span>
+            <h4>Aplicativo Flash</h4>
+            <ul style="margin: 10px 0 0 20px; font-size: 0.9rem; color: var(--dim);">
+                <li>Instale o aplicativo <strong>Flash</strong> na sua loja de aplicativos.</li>
+                <li>Verifique no seu <strong>e-mail ou SMS</strong> o link para o primeiro acesso.</li>
+                <li>Insira seus dados conforme solicitado.</li>
+                <li>Desbloqueie o cartão pelo <strong>QR Code no verso</strong> ou inserindo a numeração.</li>
+            </ul>
+            <p style="margin-top: 12px; font-size: 0.82rem; color: #e74c3c;">* Não recebeu o link? Comunique o RH.</p>
+        </div>
+        <div class="info-box">
+            <span class="tag">Vale-Transporte</span>
+            <h4>Cartão Vinsa</h4>
+            <p>Depositado mensalmente no <strong>cartão Vinsa</strong>, identificado pelo seu CPF.</p>
+            <ul style="margin: 12px 0 0 20px; font-size: 0.9rem; color: var(--dim);">
+                <li>Sem cartão ainda? Compareça à <strong>Vinsa</strong> para emissão.</li>
+                <li>Desconto de <strong>6%</strong> em folha de pagamento.</li>
+            </ul>
+        </div>
+        <div class="info-box">
+            <span class="tag">Convênio Farmácia</span>
+            <h4>Farmácia Farmalis</h4>
+            <p>Assine o <strong>termo de autorização</strong> e compre sem pagar na hora.</p>
+            <ul style="margin: 12px 0 0 20px; font-size: 0.9rem; color: var(--dim);">
+                <li>Limite: até <strong>15% do seu salário</strong>.</li>
+                <li>Desconto direto na folha apenas se houver compras.</li>
+            </ul>
+        </div>
+        <div class="info-box">
+            <span class="tag">TotalPass</span>
+            <h4>Atividade Física</h4>
+            <p>Interessados devem solicitar a ativação diretamente no RH.</p>
+        </div>
+    </section>
+
+</main>
+<footer>
+    <p>Diretoria de Tecnologia da Informação &copy; 2026 Forest Paper</p>
+</footer>
+
+<!-- Firebase SDK (compat — funciona direto no HTML sem bundler/npm) -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+<script>
+    // ── Configuração Firebase ────────────────────────────────
+    const firebaseConfig = {
+        apiKey: "AIzaSyAAjsDPB0vwwGGD6xb1tM4TCQuWDCqijXE",
+        authDomain: "forest-paper-portal.firebaseapp.com",
+        projectId: "forest-paper-portal",
+        storageBucket: "forest-paper-portal.firebasestorage.app",
+        messagingSenderId: "222219037460",
+        appId: "1:222219037460:web:cb193b70bc5281036bb001"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    // ─────────────────────────────────────────────────────────
+
+    const MESES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho',
+                   'Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+    const DS = ['D','S','T','Q','Q','S','S'];
+    const diaSem = (ano, mes, dia) => DS[new Date(ano, mes - 1, dia).getDay()];
+    const clsMap = { A:'a', B:'b', C:'c', D:'d', E:'e' };
+
+    // ── Carregar Escala em tempo real ────────────────────────
+    db.collection('portal').doc('escala').onSnapshot(snap => {
+        if (!snap.exists) {
+            document.getElementById('escala-wrapper').innerHTML =
+                '<p style="color:var(--dim);padding:20px">Nenhuma escala publicada ainda.</p>';
+            return;
+        }
+        const { mes, ano, linhas } = snap.data();
+        const dias = new Date(ano, mes, 0).getDate();
+
+        document.getElementById('escala-titulo').textContent =
+            'Escala de Turnos Revita — ' + MESES[mes - 1] + ' ' + ano;
+
+        let html = '<div class="escala-container"><table><thead>';
+        html += '<tr class="header-row"><th class="sticky-col">' + MESES[mes-1].toUpperCase() + ' ' + ano + '</th>';
+        for (let i = 1; i <= dias; i++) html += '<th>' + i + '</th>';
+        html += '</tr><tr class="header-row"><th class="sticky-col">DIA SEMANA</th>';
+        for (let i = 1; i <= dias; i++) html += '<td>' + diaSem(ano, mes, i) + '</td>';
+        html += '</tr></thead><tbody>';
+
+        linhas.forEach((linha, idx) => {
+            html += '<tr><td class="sticky-col' + (idx === 0 ? ' folga-label' : '') + '">' + (linha[0] || '') + '</td>';
+            for (let i = 1; i <= dias; i++) {
+                const g = (linha[i] || '').toUpperCase();
+                const c = clsMap[g] || '';
+                html += '<td class="' + c + '">' + g + '</td>';
+            }
+            html += '</tr>';
+        });
+
+        html += '</tbody></table></div>';
+        document.getElementById('escala-wrapper').innerHTML = html;
+    }, err => {
+        console.error('Erro ao carregar escala:', err);
+        document.getElementById('escala-wrapper').innerHTML =
+            '<p style="color:#e74c3c;padding:20px">Erro ao carregar escala. Verifique as regras do Firestore.</p>';
+    });
+
+    // ── Carregar Comunicados em tempo real ───────────────────
+    db.collection('portal').doc('comunicados').onSnapshot(snap => {
+        if (!snap.exists) {
+            document.getElementById('feriado-titulo').textContent = '—';
+            document.getElementById('feriado-desc').textContent = '';
+            document.getElementById('cipa-forest-render').innerHTML = 'Em breve.';
+            document.getElementById('cipa-revita-render').innerHTML = 'Em breve.';
+            return;
+        }
+        const d = snap.data();
+        document.getElementById('feriado-titulo').textContent = d.feriadoTitulo || '—';
+        document.getElementById('feriado-desc').textContent   = d.feriadoDesc   || '';
+        document.getElementById('cipa-forest-render').innerHTML =
+            (d.cipaForest || 'Em breve.').replace(/\n/g, '<br>');
+        document.getElementById('cipa-revita-render').innerHTML =
+            (d.cipaRevita || 'Em breve.').replace(/\n/g, '<br>');
+    }, err => {
+        console.error('Erro ao carregar comunicados:', err);
+    });
+
+    // ── Modal de Login ───────────────────────────────────────
+    const USUARIOS = { 'rh': 'rh@2026', 'ti': 'ti@2026' };
+
+    function abrirModal() {
+        document.getElementById('modal-login').classList.add('ativo');
+        document.getElementById('inp-user').focus();
+    }
+
+    function fecharModal() {
+        document.getElementById('modal-login').classList.remove('ativo');
+        document.getElementById('erro-login').style.display = 'none';
+        document.getElementById('inp-user').value = '';
+        document.getElementById('inp-senha').value = '';
+    }
+
+    function entrar() {
+        const user  = document.getElementById('inp-user').value.trim().toLowerCase();
+        const senha = document.getElementById('inp-senha').value;
+        const erro  = document.getElementById('erro-login');
+        if (USUARIOS[user] && USUARIOS[user] === senha) {
+            fecharModal();
+            window.location.href = 'admin-escala.html';
+        } else {
+            erro.style.display = 'block';
+            document.getElementById('inp-senha').value = '';
+        }
+    }
+
+    document.getElementById('modal-login').addEventListener('click', function(e) {
+        if (e.target === this) fecharModal();
+    });
+
+    // ── Scroll suave ─────────────────────────────────────────
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            const targetId = this.getAttribute('href');
+            if (targetId !== '#') {
+                e.preventDefault();
+                const target = document.querySelector(targetId);
+                if (target) {
+                    const top = target.getBoundingClientRect().top + window.scrollY - 80;
+                    window.scrollTo({ top, behavior: 'smooth' });
+                }
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
