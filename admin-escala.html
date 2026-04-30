@@ -471,10 +471,16 @@
         msg.textContent = 'Conectando ao Firebase...'; msg.className = 'msg info';
 
         try {
+            // Firestore não suporta arrays aninhados — converte cada linha em objeto
+            const linhasObj = {};
+            d.linhas.slice(0, 5).forEach((linha, i) => {
+                linhasObj['l' + i] = linha.join('\t');
+            });
+
             await db.collection('portal').doc('escala').set({
                 mes:    d.mes,
                 ano:    d.ano,
-                linhas: d.linhas.slice(0, 5),
+                linhas: linhasObj,
                 atualizadoEm: new Date().toISOString()
             });
 
