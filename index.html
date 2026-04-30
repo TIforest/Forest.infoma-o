@@ -586,8 +586,11 @@
                 '<p style="color:var(--dim);padding:20px">Nenhuma escala publicada ainda.</p>';
             return;
         }
-        const { mes, ano, linhas } = snap.data();
+        const { mes, ano, linhas: linhasObj } = snap.data();
         const dias = new Date(ano, mes, 0).getDate();
+
+        // Reconverte objeto de volta para array de arrays
+        const linhas = [0,1,2,3,4].map(i => (linhasObj['l'+i] || '').split('\t'));
 
         document.getElementById('escala-titulo').textContent =
             'Escala de Turnos Revita — ' + MESES[mes - 1] + ' ' + ano;
