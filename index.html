@@ -67,29 +67,20 @@
 
         #btn-ouvidoria {
             margin-left: 20px;
-            background: rgba(192, 57, 43, 0.12);
-            border: 1px solid #e74c3c;
-            color: #ff8577;
+            background: none;
+            border: 1px solid var(--slate);
+            color: var(--dim);
             padding: 5px 12px;
             border-radius: 4px;
             font-size: 0.75rem;
-            font-weight: 700;
+            font-weight: 600;
             text-transform: uppercase;
             text-decoration: none;
             display: inline-block;
             cursor: pointer;
             transition: all 0.3s;
-            animation: pulseOuvidoria 2.2s ease-in-out infinite;
         }
-        #btn-ouvidoria:hover {
-            background: #e74c3c;
-            color: #fff;
-            transform: translateY(-1px);
-        }
-        @keyframes pulseOuvidoria {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(231,76,60,0); }
-            50% { box-shadow: 0 0 12px 3px rgba(231,76,60,0.45); }
-        }
+        #btn-ouvidoria:hover { border-color: var(--green); color: var(--green); }
 
         #hero {
             padding: 70px 0;
@@ -345,7 +336,7 @@
             <a href="#plano-saude">Plano de Saúde</a>
             <a href="#beneficios">Benefícios</a>
             <!-- TODO: substituir "#" pela URL definitiva do canal de integridade/ouvidoria -->
-            <a id="btn-ouvidoria" href="#" target="_blank" rel="noopener">📢 Canal de Integridade de Ouvidoria</a>
+            <a id="btn-ouvidoria" href="#" target="_blank" rel="noopener">Integridade de Ouvidoria</a>
             <button id="btn-admin" onclick="abrirModal()">⚙ Alterar Escala</button>
         </nav>
     </div>
