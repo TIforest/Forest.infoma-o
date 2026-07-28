@@ -65,6 +65,32 @@
         }
         #btn-admin:hover { border-color: var(--green); color: var(--green); }
 
+        #btn-ouvidoria {
+            margin-left: 20px;
+            background: rgba(192, 57, 43, 0.12);
+            border: 1px solid #e74c3c;
+            color: #ff8577;
+            padding: 5px 12px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            text-decoration: none;
+            display: inline-block;
+            cursor: pointer;
+            transition: all 0.3s;
+            animation: pulseOuvidoria 2.2s ease-in-out infinite;
+        }
+        #btn-ouvidoria:hover {
+            background: #e74c3c;
+            color: #fff;
+            transform: translateY(-1px);
+        }
+        @keyframes pulseOuvidoria {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(231,76,60,0); }
+            50% { box-shadow: 0 0 12px 3px rgba(231,76,60,0.45); }
+        }
+
         #hero {
             padding: 70px 0;
             text-align: center;
@@ -284,7 +310,7 @@
         @media (max-width: 768px) {
             .header-content { flex-wrap: wrap; gap: 10px; }
             nav { display: flex; flex-wrap: wrap; gap: 6px; justify-content: flex-start; }
-            nav a, #btn-admin { margin-left: 0; font-size: 0.75rem; }
+            nav a, #btn-admin, #btn-ouvidoria { margin-left: 0; font-size: 0.75rem; }
             .sticky-col { min-width: 70px; font-size: 0.62rem; padding-left: 4px; }
             table { font-size: 0.62rem; min-width: 600px; }
             th, td { padding: 7px 2px; }
@@ -318,6 +344,8 @@
             <a href="#manual-detalhado">Manual</a>
             <a href="#plano-saude">Plano de Saúde</a>
             <a href="#beneficios">Benefícios</a>
+            <!-- TODO: substituir "#" pela URL definitiva do canal de integridade/ouvidoria -->
+            <a id="btn-ouvidoria" href="#" target="_blank" rel="noopener">📢 Canal de Integridade de Ouvidoria</a>
             <button id="btn-admin" onclick="abrirModal()">⚙ Alterar Escala</button>
         </nav>
     </div>
